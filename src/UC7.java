@@ -19,7 +19,7 @@ class Bogie {
         return type + " (" + capacity + " seats)";
     }
 }
-public class TrainConsist {
+public class UC7 {
     private static List<String> passengerBogies = new ArrayList<>();
     private static Set<String> bogieIds = new HashSet<>();
     private static LinkedList<String> trainChain = new LinkedList<>();
