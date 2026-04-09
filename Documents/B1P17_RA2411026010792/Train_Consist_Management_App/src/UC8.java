@@ -1,13 +1,21 @@
-import java.util.*;
-import java.util.stream.*;
-
 public class TrainConsistManagementApp {
 
-    static class Bogie {
+    // Custom Exception
+    static class InvalidCapacityException extends Exception {
+        public InvalidCapacityException(String message) {
+            super(message);
+        }
+    }
+
+    // Passenger Bogie
+    static class PassengerBogie {
         String type;
         int capacity;
 
-        Bogie(String type, int capacity) {
+        PassengerBogie(String type, int capacity) throws InvalidCapacityException {
+            if (capacity <= 0) {
+                throw new InvalidCapacityException("Capacity must be greater than zero");
+            }
             this.type = type;
             this.capacity = capacity;
         }
@@ -15,36 +23,15 @@ public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
-        System.out.println("UC13 - Performance Comparison\n");
+        System.out.println("UC14 - Custom Exception\n");
 
-        List<Bogie> bogies = new ArrayList<>();
+        try {
+            PassengerBogie b1 = new PassengerBogie("Sleeper", 72);
+            System.out.println("Created: " + b1.type);
 
-        for (int i = 0; i < 100000; i++) {
-            bogies.add(new Bogie("Sleeper", i % 100));
+            PassengerBogie b2 = new PassengerBogie("AC", -10); // ❌
+        } catch (InvalidCapacityException e) {
+            System.out.println("Error: " + e.getMessage());
         }
-
-        // Loop timing
-        long start1 = System.nanoTime();
-
-        List<Bogie> result1 = new ArrayList<>();
-        for (Bogie b : bogies) {
-            if (b.capacity > 60) {
-                result1.add(b);
-            }
-        }
-
-        long end1 = System.nanoTime();
-
-        // Stream timing
-        long start2 = System.nanoTime();
-
-        List<Bogie> result2 = bogies.stream()
-                .filter(b -> b.capacity > 60)
-                .collect(Collectors.toList());
-
-        long end2 = System.nanoTime();
-
-        System.out.println("Loop Time: " + (end1 - start1));
-        System.out.println("Stream Time: " + (end2 - start2));
     }
 }
