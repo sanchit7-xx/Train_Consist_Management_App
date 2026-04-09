@@ -1,21 +1,62 @@
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class TrainConsistManagementApp {
 
+    // Binary Search Method
+    public static boolean binarySearch(String[] bogieIds, String key) {
+
+        int low = 0;
+        int high = bogieIds.length - 1;
+
+        while (low <= high) {
+
+            int mid = (low + high) / 2;
+
+            int result = key.compareTo(bogieIds[mid]);
+
+            if (result == 0) {
+                return true; // Found
+            } else if (result < 0) {
+                high = mid - 1; // Search left
+            } else {
+                low = mid + 1; // Search right
+            }
+        }
+
+        return false; // Not found
+    }
+
     public static void main(String[] args) {
 
-        System.out.println("UC17 - Sort Bogie Names Using Arrays.sort()\n");
+        System.out.println("UC19 - Binary Search for Bogie ID\n");
 
-        // Array of bogie type names
-        String[] bogieNames = {"Sleeper", "AC Chair", "First Class", "General", "Luxury"};
+        // Unsorted array (to test requirement)
+        String[] bogieIds = {"BG309", "BG101", "BG550", "BG205", "BG412"};
 
-        System.out.println("Before Sorting: " + Arrays.toString(bogieNames));
+        // Step 1: Sort before binary search
+        Arrays.sort(bogieIds);
 
-        // Sorting using built-in method
-        Arrays.sort(bogieNames);
+        System.out.println("Sorted Bogie IDs: " + Arrays.toString(bogieIds));
 
-        System.out.println("After Sorting: " + Arrays.toString(bogieNames));
+        Scanner sc = new Scanner(System.in);
+
+        // User input
+        System.out.print("Enter Bogie ID to search: ");
+        String searchKey = sc.nextLine();
+
+        // Step 2: Perform Binary Search
+        boolean found = binarySearch(bogieIds, searchKey);
+
+        // Output
+        if (found) {
+            System.out.println("Bogie ID " + searchKey + " FOUND.");
+        } else {
+            System.out.println("Bogie ID " + searchKey + " NOT FOUND.");
+        }
 
         System.out.println("\nProgram continues...");
+
+        sc.close();
     }
 }
