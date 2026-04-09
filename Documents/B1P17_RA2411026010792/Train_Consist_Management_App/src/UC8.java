@@ -1,54 +1,34 @@
-import java.util.regex.Pattern;
-
-/**
- * =============================================================
- * MAIN CLASS - TrainConsistManagementApp
- * =============================================================
- *
- * Use Case 11: Validate Train ID & Cargo Code
- *
- * Description:
- * This class validates input formats using Regular Expressions.
- *
- * At this stage, the application:
- * - Accepts Train ID input
- * - Accepts Cargo Code input
- * - Applies regex validation
- * - Displays validation result
- *
- * This maps format validation logic using Pattern matching.
- *
- * @author Developer
- * @version 11.0
- */
+import java.util.*;
 
 public class TrainConsistManagementApp {
 
+    static class GoodsBogie {
+        String type;
+        String cargo;
+
+        GoodsBogie(String type, String cargo) {
+            this.type = type;
+            this.cargo = cargo;
+        }
+    }
+
     public static void main(String[] args) {
 
-        System.out.println("===========================================");
-        System.out.println(" UC11 - Validate Train ID & Cargo Code ");
-        System.out.println("===========================================\n");
+        System.out.println("UC12 - Safety Compliance Check\n");
 
-        // Sample inputs (you can change these for testing)
-        String trainId = "TRN-1234";
-        String cargoCode = "PET-AB";
+        List<GoodsBogie> bogies = new ArrayList<>();
 
-        // ----- Define regex patterns -----
-        String trainPattern = "TRN-\\d{4}";
-        String cargoPattern = "PET-[A-Z]{2}";
+        bogies.add(new GoodsBogie("Cylindrical", "Petroleum"));
+        bogies.add(new GoodsBogie("Open", "Coal"));
+        bogies.add(new GoodsBogie("Box", "Grain"));
 
-        // ----- Validate using Pattern.matches() -----
-        boolean isTrainValid = Pattern.matches(trainPattern, trainId);
-        boolean isCargoValid = Pattern.matches(cargoPattern, cargoCode);
+        boolean isSafe = bogies.stream().allMatch(b -> {
+            if (b.type.equals("Cylindrical")) {
+                return b.cargo.equals("Petroleum");
+            }
+            return true;
+        });
 
-        // ----- Display results -----
-        System.out.println("Train ID: " + trainId);
-        System.out.println("Is Valid? " + isTrainValid);
-
-        System.out.println("\nCargo Code: " + cargoCode);
-        System.out.println("Is Valid? " + isCargoValid);
-
-        System.out.println("\nUC11 validation completed...");
+        System.out.println("Is Train Safe? " + isSafe);
     }
 }
